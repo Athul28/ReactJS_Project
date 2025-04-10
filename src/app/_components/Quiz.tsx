@@ -33,7 +33,7 @@ type QuizProps = {
 
 export default function Quiz({ data, setData }: QuizProps) {
   return (
-    <div>
+    <div className="text-white">
       {Array.isArray(data) && (
         <div className="mt-4">
           {data.map((item, index) => (
