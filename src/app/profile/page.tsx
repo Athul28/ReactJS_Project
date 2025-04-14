@@ -12,7 +12,7 @@ export default function Profile() {
 
   const getProfile = async () => {
     const res = await fetch(`/api/getProfile?email=${session?.user.email}`);
-    const data = await res.json();
+    const data = (await res.json()) as { quizzes: Quizzes[] };
     console.log(data);
     if (res.ok) {
       setLoading(false);
@@ -22,7 +22,7 @@ export default function Profile() {
 
   useEffect(() => {
     if (session?.user) {
-      getProfile();
+      void getProfile();
     }
   }, [session]);
 

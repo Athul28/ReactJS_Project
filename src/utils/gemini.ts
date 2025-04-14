@@ -64,6 +64,7 @@ Return only a JSON array in the following format:
             option4: string;
           };
           answer: string;
+          explanation: string;
         }[]
       | { error: string };
   } catch (e) {

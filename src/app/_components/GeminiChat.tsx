@@ -7,7 +7,7 @@ import { useSession } from "next-auth/react";
 import type { Question } from "~/lib/types";
 
 export default function GeminiChat() {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
 
   const [prompt, setPrompt] = useState("");
   const [response, setResponse] = useState("");
@@ -39,7 +39,7 @@ export default function GeminiChat() {
         questions: data,
       }),
     });
-    const resData = await res.json();
+    const resData = (await res.json()) as { success: boolean; message: string };
     console.log(resData);
   };
 
@@ -64,11 +64,7 @@ export default function GeminiChat() {
       </button>
       {mutation.status === "pending" && <p>Generating Questions...</p>}
       {Array.isArray(data) && data.every((item) => "id" in item) && (
-        <Quiz
-          data={data}
-          submitQuiz={submitQuiz}
-          setData={setData}
-        />
+        <Quiz data={data} submitQuiz={submitQuiz} setData={setData} />
       )}
     </div>
   );
