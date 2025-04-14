@@ -45,7 +45,7 @@ export default function Quiz({ data, setData }: QuizProps) {
                 {Object.entries(item.options).map(([key, option]) => (
                   <button
                     key={key}
-                    className={`rounded border px-4 py-2 ${
+                    className={`rounded border cursor-pointer px-4 py-2 ${
                       item.selectedAnswer === key
                         ? "bg-green-500 text-white"
                         : ""
@@ -68,7 +68,7 @@ export default function Quiz({ data, setData }: QuizProps) {
             </div>
           ))}
           <button
-            className="mt-4 rounded bg-green-600 px-4 py-2 text-white"
+            className="mt-4 rounded bg-green-600 px-4 py-2 text-white cursor-pointer"
             onClick={() => {
               if (Array.isArray(data)) {
                 const score = data.reduce((acc, item) => {
