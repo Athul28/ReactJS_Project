@@ -18,3 +18,11 @@ export interface Quizzes {
   userId: string;
   score: number;
 }
+
+export interface Quiz {
+  id: string;
+  title: string;
+  questions: Question[];
+  userId: string;
+  score: number;
+}
