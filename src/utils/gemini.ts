@@ -23,7 +23,8 @@ Return only a JSON array in the following format:
       "option3": "Choice C",
       "option4": "Choice D"
     },
-    "answer": "option2"
+    "answer": "option2",
+    "explanation":"explanation of the answer..."
   },
   ...
 ]

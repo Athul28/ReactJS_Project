@@ -1,4 +1,3 @@
-// components/GeminiChat.tsx
 "use client";
 
 import { api } from "~/trpc/react";
@@ -11,7 +10,6 @@ export default function GeminiChat() {
   const { data: session, status } = useSession();
 
   const [prompt, setPrompt] = useState("");
-  const [score, setScore] = useState(0);
   const [response, setResponse] = useState("");
   const [data, setData] = useState<Question[]>([]);
 
@@ -31,7 +29,7 @@ export default function GeminiChat() {
     },
   });
 
-  const submitQuiz = async () => {
+  const submitQuiz = async (score: number) => {
     const res = await fetch("/api/submitQuiz", {
       method: "POST",
       body: JSON.stringify({
@@ -55,16 +53,19 @@ export default function GeminiChat() {
         onChange={(e) => setPrompt(e.target.value)}
       />
       <button
-        className="mt-2 rounded bg-blue-600 px-4 py-2 text-white"
-        onClick={() => mutation.mutate({ prompt })}
+        className="mt-2 cursor-pointer rounded bg-blue-600 px-4 py-2 text-white"
+        onClick={() => {
+          setData([]);
+          mutation.mutate({ prompt });
+        }}
         disabled={mutation.status === "pending"}
       >
-        {mutation.status === "pending" ? "Generating Questions" : "Submit"}
+        Submit
       </button>
+      {mutation.status === "pending" && <p>Generating Questions...</p>}
       {Array.isArray(data) && data.every((item) => "id" in item) && (
         <Quiz
           data={data}
-          setScore={setScore}
           submitQuiz={submitQuiz}
           setData={setData}
         />

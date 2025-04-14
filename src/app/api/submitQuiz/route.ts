@@ -43,6 +43,7 @@ export async function POST(request: Request) {
           option4: question.options.option4,
           correctAnswer: question.answer,
           selectedAnswer: question.selectedAnswer,
+          explanation:question.explanation,
           Quiz: {
             connect: {
               id: quiz.id,

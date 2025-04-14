@@ -9,4 +9,12 @@ export interface Question {
   };
   answer: string;
   selectedAnswer?: string;
+  explanation: string;
+}
+
+export interface Quizzes {
+  id: string;
+  title: string;
+  userId: string;
+  score: number;
 }

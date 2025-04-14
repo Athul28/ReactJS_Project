@@ -6,6 +6,7 @@ export async function GET(request: Request) {
   const email = url.searchParams.get("email");
   const profile = await db.user.findFirst({
     where: { email },
+    include: { quizzes: true },
   });
   if (profile) {
     return NextResponse.json(profile);
