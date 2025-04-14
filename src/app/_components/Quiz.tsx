@@ -29,9 +29,16 @@ type QuizProps = {
       }[]
     >
   >;
+  setScore: React.Dispatch<React.SetStateAction<number>>;
+  submitQuiz: () => Promise<void>;
 };
 
-export default function Quiz({ data, setData }: QuizProps) {
+export default function Quiz({
+  data,
+  setData,
+  setScore,
+  submitQuiz,
+}: QuizProps) {
   return (
     <div className="text-white">
       {Array.isArray(data) && (
@@ -45,7 +52,7 @@ export default function Quiz({ data, setData }: QuizProps) {
                 {Object.entries(item.options).map(([key, option]) => (
                   <button
                     key={key}
-                    className={`rounded border cursor-pointer px-4 py-2 ${
+                    className={`cursor-pointer rounded border px-4 py-2 ${
                       item.selectedAnswer === key
                         ? "bg-green-500 text-white"
                         : ""
@@ -68,13 +75,15 @@ export default function Quiz({ data, setData }: QuizProps) {
             </div>
           ))}
           <button
-            className="mt-4 rounded bg-green-600 px-4 py-2 text-white cursor-pointer"
+            className="mt-4 cursor-pointer rounded bg-green-600 px-4 py-2 text-white"
             onClick={() => {
               if (Array.isArray(data)) {
                 const score = data.reduce((acc, item) => {
                   return acc + (item.selectedAnswer === item.answer ? 1 : 0);
                 }, 0);
+                setScore(score);
                 alert(`Your score is ${score} out of ${data.length}`);
+                void submitQuiz();
               }
             }}
           >

@@ -4,26 +4,16 @@
 import { api } from "~/trpc/react";
 import { useState } from "react";
 import Quiz from "./Quiz";
+import { useSession } from "next-auth/react";
+import type { Question } from "~/lib/types";
 
 export default function GeminiChat() {
+  const { data: session, status } = useSession();
+
   const [prompt, setPrompt] = useState("");
+  const [score, setScore] = useState(0);
   const [response, setResponse] = useState("");
-  const [data, setData] = useState<
-    | {
-        id: number;
-        question: string;
-        options: {
-          option1: string;
-          option2: string;
-          option3: string;
-          option4: string;
-        };
-        answer: string;
-        selectedAnswer?: string;
-      }[]
-    | { error: string }
-    | { error: string; raw: string }
-  >();
+  const [data, setData] = useState<Question[]>([]);
 
   const mutation = api.gemini.ask.useMutation({
     onSuccess: (data) => {
@@ -32,10 +22,28 @@ export default function GeminiChat() {
           ? data.response
           : JSON.stringify(data.response),
       );
-      setData(data.response);
+      if (Array.isArray(data.response)) {
+        setData(data.response);
+      } else {
+        console.error("Unexpected response format:", data.response);
+      }
       console.log(data.response);
     },
   });
+
+  const submitQuiz = async () => {
+    const res = await fetch("/api/submitQuiz", {
+      method: "POST",
+      body: JSON.stringify({
+        email: session?.user.email,
+        title: prompt,
+        score: score,
+        questions: data,
+      }),
+    });
+    const resData = await res.json();
+    console.log(resData);
+  };
 
   return (
     <div className="p-4">
@@ -56,14 +64,10 @@ export default function GeminiChat() {
       {Array.isArray(data) && data.every((item) => "id" in item) && (
         <Quiz
           data={data}
-          setData={setData as React.Dispatch<React.SetStateAction<typeof data>>}
+          setScore={setScore}
+          submitQuiz={submitQuiz}
+          setData={setData}
         />
-      )}
-      {data && "error" in data && (
-        <div className="mt-4 text-red-600">
-          <p>Error: {data.error}</p>
-          {data && "raw" in data && <p>Raw: {data.raw}</p>}
-        </div>
       )}
     </div>
   );
