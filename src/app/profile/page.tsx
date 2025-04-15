@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import { useState } from "react";
 import Image from "next/image";
 import type { Quizzes } from "~/lib/types";
+import Loader from "../_components/Loader";
 
 export default function Profile() {
   const { data: session, status } = useSession();
@@ -31,7 +32,7 @@ export default function Profile() {
   }
 
   if (status === "loading" || loading) {
-    return <div>loading...</div>;
+    return <Loader />;
   }
 
   return (

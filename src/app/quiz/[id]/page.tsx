@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import type { Quiz } from "~/lib/types";
 import ViewQuiz from "~/app/_components/ViewQuiz";
 import type { QuizApi } from "~/lib/types";
+import Loader from "~/app/_components/Loader";
 
 export default function QuizPage() {
   const { id } = useParams();
@@ -54,7 +55,7 @@ export default function QuizPage() {
           </div>
         </div>
       ) : (
-        <p className="text-center text-gray-500">Loading quiz...</p>
+        <Loader />
       )}
     </div>
   );
