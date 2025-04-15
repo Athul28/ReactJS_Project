@@ -12,6 +12,7 @@ export default function GeminiChat() {
   const [prompt, setPrompt] = useState("");
   const [response, setResponse] = useState("");
   const [data, setData] = useState<Question[]>([]);
+  // const [resources, setResources] = useState<Resources[]>([]);
 
   const mutation = api.gemini.ask.useMutation({
     onSuccess: (data) => {
@@ -29,6 +30,17 @@ export default function GeminiChat() {
     },
   });
 
+  // const getResourceMutation = api.gemini.getRecommendation.useMutation({
+  //   onSuccess: (data) => {
+  //     if (Array.isArray(data.response)) {
+  //       setResources(data.response);
+  //       console.log(data.response);
+  //     } else {
+  //       console.error("Unexpected response format:", data.response);
+  //     }
+  //   },
+  // });
+
   const submitQuiz = async (score: number) => {
     const res = await fetch("/api/submitQuiz", {
       method: "POST",
@@ -41,6 +53,10 @@ export default function GeminiChat() {
     });
     const resData = (await res.json()) as { success: boolean; message: string };
     console.log(resData);
+    // getResourceMutation.mutate({
+    //   title: prompt,
+    //   questions: data,
+    // });
   };
 
   return (

@@ -4,25 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import type { Quiz } from "~/lib/types";
 import ViewQuiz from "~/app/_components/ViewQuiz";
-
-type QuizApi = {
-  id: string;
-  title: string;
-  userId: string;
-  score: number;
-  questions: {
-    id: number;
-    question: string;
-    option1: string;
-    option2: string;
-    option3: string;
-    option4: string;
-    correctAnswer: string;
-    selectedAnswer: string;
-    explanation: string;
-    quizId: string;
-  }[];
-};
+import type { QuizApi } from "~/lib/types";
 
 export default function QuizPage() {
   const { id } = useParams();

@@ -26,3 +26,28 @@ export interface Quiz {
   userId: string;
   score: number;
 }
+
+export interface QuizApi {
+  id: string;
+  title: string;
+  userId: string;
+  score: number;
+  questions: {
+    id: number;
+    question: string;
+    option1: string;
+    option2: string;
+    option3: string;
+    option4: string;
+    correctAnswer: string;
+    selectedAnswer: string;
+    explanation: string;
+    quizId: string;
+  }[];
+}
+
+export interface Resources {
+  topic: string;
+  youtube: string[];
+  websites: string[];
+}
